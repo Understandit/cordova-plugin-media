@@ -43,6 +43,13 @@ BOOL keepAvAudioSessionAlwaysActive = NO;
             }
         }
     }
+    
+    NSError* err = nil;
+
+    self.avSession = [AVAudioSession sharedInstance];
+    [self.avSession setCategory:AVAudioSessionCategoryAmbient withOptions:AVAudioSessionCategoryOptionDuckOthers error:&err];
+
+    NSLog(@"Init av session");
 }
 
 // Maps a url for a resource path for recording
@@ -210,10 +217,8 @@ BOOL keepAvAudioSessionAlwaysActive = NO;
 
     if (!self.avSession) {
         NSError* error = nil;
-        NSError* err = nil;
 
         self.avSession = [AVAudioSession sharedInstance];
-        [self.avSession setCategory:AVAudioSessionCategoryAmbient withOptions:AVAudioSessionCategoryOptionDuckOthers error:&err];
 
         if (error) {
             // is not fatal if can't get AVAudioSession , just log the error
